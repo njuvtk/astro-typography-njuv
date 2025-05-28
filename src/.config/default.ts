@@ -46,6 +46,10 @@ export const defaultConfig: ThemeConfig = {
         name: 'About',
         href: '/about',
       },
+      {
+        name: 'Friends',
+        href: '/friends',
+      },
     ],
     categoryMap: [{ name: '', path: '' }],
     footer: [

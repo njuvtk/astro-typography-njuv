@@ -1,0 +1,24 @@
+[
+  {
+    "category": "博客",
+    "items": [
+      {
+        "title": "张三的博客",
+        "url": "https://zhangsan.com",
+        "avatar": "https://example.com/avatar1.jpg",
+        "description": "分享前端技术和生活点滴"
+      }
+    ]
+  },
+  {
+    "category": "社区",
+    "items": [
+      {
+        "title": "前端公园",
+        "url": "https://fepark.com",
+        "avatar": "https://example.com/fepark.jpg",
+        "description": "一个温暖的开发者社区"
+      }
+    ]
+  }
+]
