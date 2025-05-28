@@ -50,4 +50,4 @@ jobs:
           username: ${{ secrets.UN }}  # FTP 用户名
           password: ${{ secrets.PW }}  # FTP 密码
           local-dir: dist/  # 本地静态文件目录
-          remote-dir: /  # 远程服务器目录
+          server-dir: /  # 远程服务器目录
