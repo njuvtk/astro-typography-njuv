@@ -1,22 +1,19 @@
 ---
-import friends from '../data/friends.json';
-import FriendCard from '../components/FriendCard.astro';
-import FriendForm from '../components/FriendForm.astro';
+import LayoutDefault from '~/layouts/LayoutDefault.astro';
+import friends from '~/data/friends.json';
+import FriendCard from '~/components/FriendCard.astro';
+import FriendForm from '~/components/FriendForm.astro';
 ---
 
-<html lang="zh">
-  <head>
-    <title>友情链接 | 我的博客</title>
-    <meta name="description" content="值得推荐的博客和站点" />
-  </head>
-  <body class="px-6 py-12 max-w-6xl mx-auto">
+<LayoutDefault title="友情链接" description="收录值得推荐的网站与博客">
+  <section class="max-w-6xl mx-auto px-4 py-10">
     <h1 class="text-4xl font-bold text-center mb-10">友情链接</h1>
 
-    {friends.map(group => (
-      <section class="mb-10">
+    {friends.map((group) => (
+      <section class="mb-12">
         <h2 class="text-2xl font-semibold mb-4">{group.category}</h2>
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-          {group.items.map(friend => (
+          {group.items.map((friend) => (
             <FriendCard {...friend} />
           ))}
         </div>
@@ -25,5 +22,5 @@ import FriendForm from '../components/FriendForm.astro';
 
     <hr class="my-12" />
     <FriendForm />
-  </body>
-</html>
+  </section>
+</LayoutDefault>
