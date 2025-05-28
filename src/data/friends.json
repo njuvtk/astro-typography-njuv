@@ -3,10 +3,22 @@
     "category": "博客",
     "items": [
       {
-        "title": "张三的博客",
-        "url": "https://zhangsan.com",
-        "avatar": "https://example.com/avatar1.jpg",
-        "description": "分享前端技术和生活点滴"
+        "title": "Daily",
+        "url": "https://blog.200536.xyz",
+        "avatar": "https://blog.200536.xyz/img/tx.webp",
+        "description": "每天都不一样"
+      },
+      {
+        "title": "Elykia",
+        "url": "https://blog.elykia.cn",
+        "avatar": "https://bu.dusays.com/2024/10/25/671b2438203a6.gif",
+        "description":"致以无暇之人"
+      },
+      {
+        "title": "寻梦城 - 寻找失落之城",
+        "url": "https://blog.study996.cn",
+        "avatar": "https://q2.qlogo.cn/headimg_dl?dst_uin=2071916845&spec=640",
+        "description":"欲买桂花同载酒，终不似，少年游"
       }
     ]
   },
@@ -14,10 +26,10 @@
     "category": "社区",
     "items": [
       {
-        "title": "前端公园",
-        "url": "https://fepark.com",
-        "avatar": "https://example.com/fepark.jpg",
-        "description": "一个温暖的开发者社区"
+        "title": "LINUX DO",
+        "url": "https://linux.do",
+        "avatar": "https://linux.do/uploads/default/original/3X/9/d/9dd49731091ce8656e94433a26a3ef36062b3994.png",
+        "description": "真诚 、友善 、团结 、专业"
       }
     ]
   }
