@@ -9,7 +9,7 @@ export const defaultConfig: ThemeConfig = {
     subtitle: 'NjUvTk',
     author: 'njuv',
     description: '开心每一天',
-    website: 'https://njuv.me/',
+    website: 'https://njuvtk.github.io',
     pageSize: 5,
     socialLinks: [
       {
