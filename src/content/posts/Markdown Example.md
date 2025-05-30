@@ -1,13 +1,14 @@
 ---
-title: Markdown Example
-pubDate: 1921-01-10
-modDate: 2025-01-03 15:01
-categories: ["Examples"]
-description: "Here is a sample of some basic Markdown syntax that can be used when writing Markdown content in Astro."
+title: Markdown 示例
+pubDate: 2025-05-30 #（发布日期）
+modDate: 2025-05-30 #（最后修改日期）
+categories: ["示例"] #（分类）
+description: "这是在 Astro 中编写 Markdown 内容时可使用的一些基本 Markdown 语法示例。" #（描述）
 slug: markdown-example
-draft: false
-pin: false
+draft: false #（是否为草稿，`false` 表示公开发布）
+pin: false #（是否置顶，`false` 表示不置顶）
 ---
+
 
 Here is a sample of some basic Markdown syntax that can be used when writing Markdown content in Astro.
 

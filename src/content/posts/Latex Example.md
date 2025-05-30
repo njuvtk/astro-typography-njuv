@@ -1,12 +1,13 @@
 ---
-title: Latex Example
-pubDate: 2023-10-01
-categories: ["Examples"]
-description: "Here is a sample of some basic Latex syntax that can be used when writing Latex content in Astro."
+title: Latex 示例
+pubDate: 2025-05-30 #（发布日期）
+categories: ["示例"] #（分类）
+description: "这是在 Astro 中编写 Latex 内容时可使用的一些基本 Latex 语法示例。" #（描述）
 slug: latex-example
-draft: false
-pin: false
+draft: false #（是否为草稿，`false` 表示公开发布）
+pin: false #（是否置顶，`false` 表示不置顶）
 ---
+
 
 In this post, we will showcase some basic LaTeX syntax that can be used when writing LaTeX content in Astro.
 
