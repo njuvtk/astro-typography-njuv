@@ -1,6 +1,7 @@
 ---
 title: 博客搭建
-pubDate: 2025-04-01
+pubDate: 2025-05-29
+modDate: 2025-06-02
 categories: ["记录"]
 description: "搭建过程"
 draft: false
@@ -115,5 +116,21 @@ jobs:
    - `PW`：FTP密码。
 
 ### 部署到GitHub Pages
+通过action推送到GitHub pages仓库
+发现一个问题：样式丢失？
+一开始以为是推送的问题，没想到啊！
+通过询问Copilot问题得到解决。
+```Copilot的回答
+非常棒！你的排查结果完全正确：  
+如果没有 .nojekyll 文件，GitHub Pages 会用 Jekyll 处理，而 Jekyll 会默认忽略所有下划线开头的目录（如 _astro），导致样式、脚本等静态资源无法被访问，从而页面“完全无样式”。
 
-发现一个问题：样式丢失。
+**解决办法：**  
+只需要在仓库根目录添加一个空的 .nojekyll 文件即可。
+
+建议你在每次部署 Astro、Next.js、Vite 等生成 _astro 或 _next 目录的静态站点到 GitHub Pages 时都包含这个文件。
+
+这样 GitHub Pages 就会正常托管所有静态资源，页面样式和交互也会全部恢复正常！
+
+如需自动化部署脚本或有其他 Pages 相关问题，欢迎随时提问。
+```
+所以只需要在public文件夹下新建一个空文件.nojekyll就解决啦！`/public/.nojekyll`
