@@ -64,8 +64,12 @@ try {
     for (const group of [...localFriends, ...onlineFriends]) {
       if (!group || !group.category) continue;
       const items: any[] = Array.isArray(group.items) ? group.items : (group.items ? [group.items] : []);
-      // 检查每个友链有效性
-      const checkedItems: any[] = import.meta.env.SSR ? await Promise.all(items.map(checkFriendValid)) : items;
+      let checkedItems: any[];
+      if (group.category === '博客') {
+        checkedItems = import.meta.env.SSR ? await Promise.all(items.map(checkFriendValid)) : items;
+      } else {
+        checkedItems = items;
+      }
       const valid: any[] = checkedItems.filter((f: any) => !f.invalid);
       const invalid: any[] = checkedItems.filter((f: any) => f.invalid);
       if (!map.has(group.category)) {
@@ -73,7 +77,9 @@ try {
       } else {
         map.get(group.category).items.push(...valid);
       }
-      invalidItems.push(...invalid);
+      if (group.category === '博客') {
+        invalidItems.push(...invalid);
+      }
     }
     // 添加失效友链分组
     if (invalidItems.length > 0) {

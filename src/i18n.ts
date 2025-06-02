@@ -7,6 +7,7 @@ export const LANGUAGES = {
     Tags: '标签',
     About: '关于',
     Links: '链接',
+    Friends: '友链',
 
     posted_at: '发布于',
     updated_at: '更新于',
@@ -31,6 +32,7 @@ export const LANGUAGES = {
     Tags: 'Tags',
     About: 'About',
     Links: 'Links',
+    Friends: 'Friends',
 
     posted_at: 'Posted at',
     updated_at: 'Updated at',
@@ -55,6 +57,7 @@ export const LANGUAGES = {
     Tags: '標籤',
     About: '關於',
     Links: '鏈接',
+    Friends: '友鏈',
 
     posted_at: '發佈於',
     updated_at: '更新於',
@@ -79,6 +82,7 @@ export const LANGUAGES = {
     Tags: 'タグ',
     About: '私について',
     Links: 'リンク',
+    Friends: '友達',
 
     posted_at: '投稿日',
     updated_at: '更新日',
@@ -103,6 +107,7 @@ export const LANGUAGES = {
     Tags: 'Tag',
     About: 'Info',
     Links: 'Link',
+    Friends: 'Amici',
 
     posted_at: 'Pubblicato in',
     updated_at: 'Aggiornato al',
