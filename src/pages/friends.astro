@@ -5,6 +5,7 @@ import FriendForm from '~/components/FriendForm.astro';
 
 /**
  * 合并本地和在线数据，支持同类合并（按 category 分类）
+ * 保证最终 friends 结构与本地 friends.json 格式一致
  */
 let friends: Array<{ category: string; items: any[] } > = [];
 try {
@@ -29,18 +30,26 @@ try {
         }
         onlineFriends = Array.from(groupMap.values());
       } else {
-        onlineFriends = onlineRaw;
+        // 处理已分组但 items 不是数组的情况，或 items 缺失
+        onlineFriends = Array.isArray(onlineRaw)
+          ? onlineRaw.map(group => ({
+              category: group.category,
+              items: Array.isArray(group.items) ? group.items : (group.items ? [group.items] : [])
+            }))
+          : [];
       }
     }
   }
-  // 按 category 合并同类项
+  // 合并本地和在线数据，保证每个 group 的 items 都是数组
   const map = new Map();
   for (const group of [...localFriends, ...onlineFriends]) {
     if (!group || !group.category) continue;
+    // 保证 items 一定是数组
+    const items = Array.isArray(group.items) ? group.items : (group.items ? [group.items] : []);
     if (!map.has(group.category)) {
-      map.set(group.category, { ...group, items: [...(group.items || [])] });
+      map.set(group.category, { ...group, items: [...items] });
     } else {
-      map.get(group.category).items.push(...(group.items || []));
+      map.get(group.category).items.push(...items);
     }
   }
   friends = Array.from(map.values());
