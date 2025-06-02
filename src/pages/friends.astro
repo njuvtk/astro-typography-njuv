@@ -42,20 +42,67 @@ try {
   }
   // 合并本地和在线数据，保证每个 group 的 items 都是数组
   const map = new Map();
-  for (const group of [...localFriends, ...onlineFriends]) {
-    if (!group || !group.category) continue;
-    // 保证 items 一定是数组
-    const items = Array.isArray(group.items) ? group.items : (group.items ? [group.items] : []);
-    if (!map.has(group.category)) {
-      map.set(group.category, { ...group, items: [...items] });
-    } else {
-      map.get(group.category).items.push(...items);
+  // 检测友链有效性（仅 SSR 阶段，客户端跳过）
+  async function checkFriendValid(friend: any) {
+    if (!import.meta.env.SSR) return { ...friend, invalid: false };
+    try {
+      // fetch 不支持 timeout 选项，需用 AbortController
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 5000);
+      const res = await fetch(friend.url, { method: 'HEAD', redirect: 'follow', signal: controller.signal });
+      clearTimeout(timeoutId);
+      if (!res.ok) return { ...friend, invalid: true };
+      return { ...friend, invalid: false };
+    } catch {
+      return { ...friend, invalid: true };
     }
   }
-  friends = Array.from(map.values());
-  // 对每个分组内的 items 进行随机排序
-  for (const group of friends) {
-    group.items = group.items.sort(() => Math.random() - 0.5);
+  // 合并并检测
+  async function mergeAndCheck() {
+    const map = new Map();
+    const invalidItems: any[] = [];
+    for (const group of [...localFriends, ...onlineFriends]) {
+      if (!group || !group.category) continue;
+      const items: any[] = Array.isArray(group.items) ? group.items : (group.items ? [group.items] : []);
+      // 检查每个友链有效性
+      const checkedItems: any[] = import.meta.env.SSR ? await Promise.all(items.map(checkFriendValid)) : items;
+      const valid: any[] = checkedItems.filter((f: any) => !f.invalid);
+      const invalid: any[] = checkedItems.filter((f: any) => f.invalid);
+      if (!map.has(group.category)) {
+        map.set(group.category, { ...group, items: [...valid] });
+      } else {
+        map.get(group.category).items.push(...valid);
+      }
+      invalidItems.push(...invalid);
+    }
+    // 添加失效友链分组
+    if (invalidItems.length > 0) {
+      map.set('友链失效', { category: '友链失效', items: invalidItems });
+    }
+    friends = Array.from(map.values());
+    // 对每个分组内的 items 进行随机排序
+    friends.forEach(group => {
+      group.items = group.items.sort(() => Math.random() - 0.5);
+    });
+  }
+  if (import.meta.env.SSR) {
+    await mergeAndCheck();
+  } else {
+    // 客户端 fallback
+    for (const group of [...localFriends, ...onlineFriends]) {
+      if (!group || !group.category) continue;
+      const items = Array.isArray(group.items) ? group.items : (group.items ? [group.items] : []);
+      if (!map.has(group.category)) {
+        map.set(group.category, { ...group, items: [...items] });
+      } else {
+        map.get(group.category).items.push(...items);
+      }
+    }
+    friends = Array.from(map.values());
+    // 对每个分组内的 items 进行随机排序
+    friends.forEach(group => {
+      group.items = group.items.sort(() => Math.random() - 0.5);
+    });
   }
 } catch (e) {
   friends = [];
@@ -71,12 +118,17 @@ try {
         <h2 class="text-2xl font-semibold mb-4">{group.category}</h2>
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
           {group.items.map((friend) => (
-            <FriendCard {...{
-              name: friend.name ?? friend.title,
-              url: friend.url,
-              avatar: friend.avatar,
-              desc: friend.desc ?? friend.description
-            }} />
+            <div>
+              <FriendCard {...{
+                name: friend.name ?? friend.title,
+                url: friend.url,
+                avatar: friend.avatar,
+                desc: friend.desc ?? friend.description
+              }} />
+              {friend.invalid && (
+                <span style="color:red;font-size:0.9em;">（失效）</span>
+              )}
+            </div>
           ))}
         </div>
       </section>
