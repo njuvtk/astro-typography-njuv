@@ -1,8 +1,52 @@
 ---
 import LayoutDefault from '~/layouts/LayoutDefault.astro';
-import friends from '~/data/friends.json';
 import FriendCard from '~/components/FriendCard.astro';
 import FriendForm from '~/components/FriendForm.astro';
+
+/**
+ * 合并本地和在线数据，支持同类合并（按 category 分类）
+ */
+let friends: Array<{ category: string; items: any[] } > = [];
+try {
+  const localFriends = (await import('~/data/friends.json')).default;
+  let onlineFriends: Array<{ category: string; items: any[] }> = [];
+  if (import.meta.env.SSR) {
+    // 仅在构建时服务端请求
+    const res = await fetch('https://links.njuv.pp.ua/list');
+    if (res.ok) {
+      const onlineRaw = await res.json();
+      // 判断是否为扁平数组（每项有 category，无 items）
+      if (Array.isArray(onlineRaw) && onlineRaw.length && !onlineRaw[0].items) {
+        // 按 category 分组
+        const groupMap = new Map();
+        for (const item of onlineRaw) {
+          if (!item.category) continue;
+          if (!groupMap.has(item.category)) {
+            groupMap.set(item.category, { category: item.category, items: [item] });
+          } else {
+            groupMap.get(item.category).items.push(item);
+          }
+        }
+        onlineFriends = Array.from(groupMap.values());
+      } else {
+        onlineFriends = onlineRaw;
+      }
+    }
+  }
+  // 按 category 合并同类项
+  const map = new Map();
+  for (const group of [...localFriends, ...onlineFriends]) {
+    if (!group || !group.category) continue;
+    if (!map.has(group.category)) {
+      map.set(group.category, { ...group, items: [...(group.items || [])] });
+    } else {
+      map.get(group.category).items.push(...(group.items || []));
+    }
+  }
+  friends = Array.from(map.values());
+} catch (e) {
+  friends = [];
+}
 ---
 
 <LayoutDefault title="友情链接" description="收录值得推荐的网站与博客">

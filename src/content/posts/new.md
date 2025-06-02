@@ -8,7 +8,7 @@ draft: false
 pin: true
 ---
 第一篇文章
-
+```markdown
 ```frontmatter
 ---
 title: 标题
@@ -20,6 +20,7 @@ draft: 草稿
 pin: 置顶
 slug: 链接
 ---
+```
 ```
 
 ## 搭建过程
@@ -120,6 +121,7 @@ jobs:
 ，发现一个问题：样式丢失？
 一开始以为是推送的问题，没想到啊！
 通过询问Copilot，问题得到解决。
+```markdown
 ```Copilot的回答
 非常棒！你的排查结果完全正确：  
 如果没有 .nojekyll 文件，GitHub Pages 会用 Jekyll 处理，而 Jekyll 会默认忽略所有下划线开头的目录（如 _astro），导致样式、脚本等静态资源无法被访问，从而页面“完全无样式”。
@@ -132,5 +134,6 @@ jobs:
 这样 GitHub Pages 就会正常托管所有静态资源，页面样式和交互也会全部恢复正常！
 
 如需自动化部署脚本或有其他 Pages 相关问题，欢迎随时提问。
+```
 ```
 所以只需要在public文件夹下新建一个空文件.nojekyll就解决啦！`/public/.nojekyll`
