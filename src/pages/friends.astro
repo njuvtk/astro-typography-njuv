@@ -53,6 +53,10 @@ try {
     }
   }
   friends = Array.from(map.values());
+  // 对每个分组内的 items 进行随机排序
+  for (const group of friends) {
+    group.items = group.items.sort(() => Math.random() - 0.5);
+  }
 } catch (e) {
   friends = [];
 }
