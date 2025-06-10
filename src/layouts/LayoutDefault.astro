@@ -118,7 +118,7 @@ const dark = themeConfig.appearance.theme === 'dark'
         window.location.hostname === "njuv.xx.kg" &&
         (window.location.pathname === "/")
       ) {
-        Promise.all(mirrors.map((url, i) => {
+        Promise.all(mirrors.map(async (url) => {
           const start = performance.now();
           return fetch(url, {mode: "no-cors", cache: "no-store"})
             .then(() => performance.now() - start)
