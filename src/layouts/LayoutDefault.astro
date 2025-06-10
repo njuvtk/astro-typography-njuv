@@ -101,5 +101,35 @@ const dark = themeConfig.appearance.theme === 'dark'
         opacity: 1;
       }
     </style>
+    <script>
+      // 镜像测速跳转脚本，仅在主站首页执行
+      const mirrors = [
+        "https://njuv.xx.kg/ping.png",
+        "https://njuv.netlify.app/ping.png",
+        "https://njuv.vercel.app/ping.png"
+      ];
+      const mirrorDomains = [
+        "https://njuv.xx.kg",
+        "https://njuv.netlify.app",
+        "https://njuv.vercel.app"
+      ];
+      // 只在主站首页执行跳转，防止内页和镜像站点重复跳转
+      if (
+        window.location.hostname === "njuv.xx.kg" &&
+        (window.location.pathname === "/")
+      ) {
+        Promise.all(mirrors.map((url, i) => {
+          const start = performance.now();
+          return fetch(url, {mode: "no-cors", cache: "no-store"})
+            .then(() => performance.now() - start)
+            .catch(() => Infinity);
+        })).then(times => {
+          const minIndex = times.indexOf(Math.min(...times));
+          if (minIndex !== -1 && times[minIndex] !== Infinity) {
+            window.location.href = mirrorDomains[minIndex];
+          }
+        });
+      }
+    </script>
   </body>
 </html>
